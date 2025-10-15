@@ -1,35 +1,18 @@
-extends Area3D
+extends XRController3D
 
-@export var sword_color: Color = Color.BLUE
-@export var controller_path: NodePath
-@onready var controller: XRController3D = get_node(controller_path)
-@onready var mesh: MeshInstance3D = $MeshInstance3D
-@onready var collision: CollisionShape3D = $CollisionShape3D
-@onready var audio_hit: AudioStreamPlayer3D = $AudioStreamPlayer3D
+@export var raycast_length = 10
 
-var sword_active: bool = true
-const LENGTH := 1.0
-
-func _ready():
-	_update_visuals()
-
-func _process(_delta):
-	if controller:
-		# Example: Right hand = "ax_button", Left hand = "x_button"
-		if controller.is_button_pressed("ax_button") or controller.is_button_pressed("x_button"):
-			sword_active = !sword_active
-			_update_visuals()
-			await get_tree().create_timer(0.25).timeout  # debounce input
-
-func _update_visuals():
-	mesh.visible = sword_active
-	collision.disabled = not sword_active
-	if mesh.material_override:
-		mesh.material_override.albedo_color = sword_color
-
-func _on_body_entered(body):
-	if not sword_active:
-		return
-	if body.has_method("on_hit_by_sword"):
-		body.on_hit_by_sword(sword_color)
-		audio_hit.play()
+func _physics_process(delta):
+	var space_state = get_world_3d().direct_space_state
+	var cam = $Camera3D
+	
+	var origin = global_position
+	var dir = global_basis.z * -1
+	var end = origin + (dir * raycast_length)
+	
+	var query = PhysicsRayQueryParameters3D.create(origin, end)
+	query.collide_with_areas = true
+	var result = space_state.intersect_ray(query)
+	
+	if result:
+		print("Collision with ", result.collider.name)

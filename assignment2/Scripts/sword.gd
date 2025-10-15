@@ -1,4 +1,4 @@
-extends XRController3D
+extends Area3D
 
 @export var sword_color: Color = Color.BLUE
 @export var controller_path: NodePath
