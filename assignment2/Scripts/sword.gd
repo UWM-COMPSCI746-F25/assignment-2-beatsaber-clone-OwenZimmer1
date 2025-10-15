@@ -1,4 +1,4 @@
-extends Area3D
+extends XRController3D
 
 @export var sword_color: Color = Color.BLUE
 @export var controller_path: NodePath
@@ -13,12 +13,21 @@ func _ready():
 	_update_visuals()
 	connect("body_entered", Callable(self, "_on_body_entered"))
 
+var last_button_state := false
+
 func _process(_delta):
 	if controller:
-		if controller.is_button_pressed("ax_button"): # A button for right hand
-			sword_active = !sword_active
-			_update_visuals()
-			await get_tree().create_timer(0.25).timeout  # debounce
+		var pressed = controller.is_button_pressed("ax_button")
+		if pressed and not last_button_state:
+			print("button pressed")
+			_toggle_sword()
+		last_button_state = pressed
+
+func _toggle_sword():
+	sword_active = !sword_active
+	_update_visuals()
+	audio_hit.play() # optional feedback
+
 
 func _update_visuals():
 	mesh.visible = sword_active
@@ -32,3 +41,7 @@ func _on_body_entered(body):
 	if body.has_method("on_hit_by_sword"):
 		body.on_hit_by_sword(sword_color)
 		audio_hit.play()
+		
+func _input(event):
+	if event.is_action_pressed("toggle_sword"):
+		_toggle_sword()

@@ -15,6 +15,13 @@ run/main_scene="uid://5s8jvtnoofsx"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
+[input]
+
+toggleLeft={
+"deadzone": 0.2,
+"events": []
+}
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
@@ -24,5 +31,5 @@ textures/vram_compression/import_etc2_astc=true
 [xr]
 
 openxr/enabled=true
-openxr/default_action_map="res://default_action_map.tres"
+openxr/default_action_map="uid://cohwrglcck8tp"
 shaders/enabled=true
