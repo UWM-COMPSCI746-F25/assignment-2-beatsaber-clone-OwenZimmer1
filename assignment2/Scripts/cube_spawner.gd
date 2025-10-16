@@ -14,6 +14,7 @@ extends Node3D
 var rng = RandomNumberGenerator.new()
 
 func _ready():
+	print("CubeSpawner ready!")
 	rng.randomize()
 	_start_timer()
 

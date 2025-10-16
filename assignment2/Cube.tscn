@@ -10,11 +10,8 @@ script = ExtResource("1_k3834")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
-visible = false
 
 [node name="Area3D" type="Area3D" parent="."]
-visible = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-visible = false
 shape = SubResource("BoxShape3D_ae35o")

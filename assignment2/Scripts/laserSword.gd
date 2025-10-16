@@ -1,4 +1,3 @@
-# LaserSword.gd
 extends Node3D
 
 @export var is_right: bool = false
@@ -6,7 +5,8 @@ extends Node3D
 @export var thickness: Vector3 = Vector3(0.02, 0.02, 1.0)
 @export var laser_color: Color = Color(0.0, 0.4, 1.0, 1.0)
 @export var laser_off_color: Color = Color(0.1, 0.1, 0.1, 0.0)
-@export var input_toggle_left: String = "toggle_laser_right" # set per-instance
+@export var input_toggle_left: String = "toggle_laser_left"
+
 
 @onready var line3d: CSGCylinder3D = $CSGCylinder3D
 @onready var area: Area3D = $Area3D
@@ -16,9 +16,9 @@ var enabled: bool = false
 
 func _ready():
 	# setup line geometry
-	line3d.clear_points()
-	line3d.add_point(Vector3.ZERO)
-	line3d.add_point(Vector3(0, 0, -length))
+	#line3d.clear_points()
+	#line3d.add_point(Vector3.ZERO)
+	#line3d.add_point(Vector3(0, 0, -length))
 	# set a simple material color for the line (use immediate color for visibility)
 	var mat = StandardMaterial3D.new()
 	mat.albedo_color = laser_color
@@ -45,6 +45,7 @@ func set_enabled(on: bool) -> void:
 func _process(delta):
 	# toggle on button press
 	if Input.is_action_just_pressed(input_toggle_left):
+		print("button pressed")
 		set_enabled(not enabled)
 
 func _on_area_body_entered(body: Node) -> void:
