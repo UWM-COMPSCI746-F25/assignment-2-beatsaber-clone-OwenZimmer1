@@ -9,12 +9,11 @@ extends Node3D
 @export var spawn_y_range: Vector2 = Vector2(0.6, 2.0)   # vertical range (meters)
 @export var spawn_speed: float = 6.0
 @export var right_color_name: String = "right"
-@export var left_color_name: String = "left"
+@onready var left_color_name: String = "left"
 
 var rng = RandomNumberGenerator.new()
 
 func _ready():
-	print("CubeSpawner ready!")
 	rng.randomize()
 	_start_timer()
 

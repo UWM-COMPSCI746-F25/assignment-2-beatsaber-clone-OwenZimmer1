@@ -1,20 +1,22 @@
-[gd_scene load_steps=8 format=3 uid="uid://5s8jvtnoofsx"]
-[gd_scene load_steps=7 format=3 uid="uid://5s8jvtnoofsx"]
+[gd_scene load_steps=12 format=3 uid="uid://5s8jvtnoofsx"]
 
 [ext_resource type="Script" uid="uid://cdwgd884663kl" path="res://Scripts/node_3d.gd" id="1_noarx"]
-[ext_resource type="Script" uid="uid://bs7bbjqemifi6" path="res://Scripts/laserSword.gd" id="2_a0tk4"]
 [ext_resource type="Material" uid="uid://1t0ubefix58x" path="res://materials/ground.tres" id="2_noarx"]
+[ext_resource type="Script" uid="uid://b3chpk877ttle" path="res://new new Scripts/RightHand.gd" id="2_r3fl7"]
+[ext_resource type="Script" uid="uid://bawu0ntmx2bng" path="res://new new Scripts/left_hand.gd" id="2_wc5p8"]
+[ext_resource type="Script" uid="uid://brhbuwrju8blx" path="res://new new Scripts/LineRight.gd" id="3_jka67"]
+[ext_resource type="Script" uid="uid://b4nebtk3l2b8s" path="res://new new Scripts/line_left.gd" id="3_jsk3o"]
+[ext_resource type="Script" uid="uid://dy63srs1ixp36" path="res://new new Scripts/cube_spawner.gd" id="6_wc5p8"]
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_r3fl7"]
-height = 1.5
-radius = 0.02
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_wc5p8"]
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_jka67"]
-height = 1.5
-radius = 0.02
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_jka67"]
 
 [sub_resource type="Environment" id="Environment_4xowi"]
 ambient_light_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i5arm"]
+size = Vector3(100, 0.1, 100)
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_noarx")
@@ -24,48 +26,55 @@ script = ExtResource("1_noarx")
 [node name="LeftHand" type="XRController3D" parent="XROrigin3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 1.3, 0)
 tracker = &"left_hand"
+script = ExtResource("2_wc5p8")
 
-[node name="Node3D" type="Node3D" parent="XROrigin3D/LeftHand"]
-script = ExtResource("2_a0tk4")
-
-[node name="Area3D" type="Area3D" parent="XROrigin3D/LeftHand/Node3D"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -0.7)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/LeftHand/Node3D/Area3D"]
-shape = SubResource("CylinderShape3D_r3fl7")
-
-[node name="CSGCylinder3D" type="CSGCylinder3D" parent="XROrigin3D/LeftHand/Node3D/Area3D"]
-radius = 0.02
-height = 1.5
+[node name="LineLeft" type="MeshInstance3D" parent="XROrigin3D/LeftHand"]
+mesh = SubResource("ImmediateMesh_wc5p8")
+script = ExtResource("3_jsk3o")
 
 [node name="RightHand" type="XRController3D" parent="XROrigin3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 1.3, 0)
 tracker = &"right_hand"
+script = ExtResource("2_r3fl7")
 
-[node name="Area3D" type="Area3D" parent="XROrigin3D/RightHand"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -0.7)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/RightHand/Area3D"]
-shape = SubResource("CylinderShape3D_jka67")
-
-[node name="CSGCylinder3D" type="CSGCylinder3D" parent="XROrigin3D/RightHand/Area3D"]
-radius = 0.02
-height = 1.5
+[node name="LineRight" type="MeshInstance3D" parent="XROrigin3D/RightHand"]
+mesh = SubResource("ImmediateMesh_jka67")
+script = ExtResource("3_jka67")
 
 [node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
 
-[node name="CubeSpawner" type="Node3D" parent="XROrigin3D"]
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_4xowi")
 
-[node name="floor" type="CSGBox3D" parent="WorldEnvironment"]
+[node name="BlueLight" type="OmniLight3D" parent="WorldEnvironment"]
+transform = Transform3D(0.955361, 0, -0.295441, 0, 1, 0, 0.295441, 0, 0.955361, -1, 3, 0)
+layers = 32
+light_color = Color(0, 0, 1, 1)
+light_energy = 2.0
+
+[node name="RedLight" type="OmniLight3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 3, 0)
+layers = 64
+light_color = Color(1, 0, 0, 1)
+light_energy = 2.0
+
+[node name="Node3D" type="Node3D" parent="WorldEnvironment"]
+
+[node name="CubeSpawner" type="Node3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
+script = ExtResource("6_wc5p8")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="WorldEnvironment/CubeSpawner"]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="WorldEnvironment"]
+
+[node name="floor" type="CSGBox3D" parent="WorldEnvironment/StaticBody3D"]
 transform = Transform3D(100, 0, 0, 0, 0.1, 0, 0, 0, 100, 0, 2.38419e-07, 0)
 material = ExtResource("2_noarx")
 
-[node name="OmniLight3D" type="OmniLight3D" parent="WorldEnvironment"]
-transform = Transform3D(0.955361, 0, -0.295441, 0, 1, 0, 0.295441, 0, 0.955361, 0, 3, 0)
-light_color = Color(0, 1, 1, 1)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WorldEnvironment/StaticBody3D"]
+shape = SubResource("BoxShape3D_i5arm")
 
-[node name="Node3D" type="Node3D" parent="WorldEnvironment"]
+[connection signal="button_pressed" from="XROrigin3D/LeftHand" to="XROrigin3D/LeftHand" method="_on_button_pressed"]
+[connection signal="button_pressed" from="XROrigin3D/RightHand" to="XROrigin3D/RightHand" method="_on_button_pressed"]
