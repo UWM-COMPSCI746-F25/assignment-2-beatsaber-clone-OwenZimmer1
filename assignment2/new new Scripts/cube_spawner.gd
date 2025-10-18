@@ -35,12 +35,18 @@ func spawn_cube():
 	var c = rng.randi_range(0, 1)
 	if c == 1:
 		box.name = right_color_name
-		#box.collision_layer = 7
+		var mat = StandardMaterial3D.new()
+		mat.albedo_color = Color.RED
+		box.get_node("MeshInstance3D").set_surface_override_material(0, mat)
 	else:
 		box.name = left_color_name
-		#box.collision_layer = 6
+		var mat = StandardMaterial3D.new()
+		mat.albedo_color = Color.BLUE
+		box.get_node("MeshInstance3D").set_surface_override_material(0, mat)
+
 	count += 1
 	box.name += str(count)
+
 	
 	var x = rng.randf_range(spawn_x_range.x, spawn_x_range.y)
 	var y = rng.randf_range(spawn_y_range.x, spawn_y_range.y)

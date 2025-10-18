@@ -1,6 +1,6 @@
 extends RigidBody3D
 
-@export var SPEED = 1
+@export var SPEED = 6
 @export var BEHIND = 1
 
 func _ready():

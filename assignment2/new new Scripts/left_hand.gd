@@ -2,6 +2,7 @@ extends XRController3D
 
 @export var raycast_length = 1.5
 @export var visibility = true
+@onready var audio = $SmackSound
 
 func _physics_process(delta):
 	print("hi")
@@ -22,6 +23,7 @@ func _physics_process(delta):
 		$LineLeft.points[1] = result.position
 		
 		if result.collider.name.contains("left"):
+			audio.play()
 			result.collider.queue_free()
 			
 func _on_button_pressed(name):

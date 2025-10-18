@@ -1,11 +1,14 @@
-[gd_scene load_steps=12 format=3 uid="uid://5s8jvtnoofsx"]
+[gd_scene load_steps=15 format=3 uid="uid://5s8jvtnoofsx"]
 
 [ext_resource type="Script" uid="uid://cdwgd884663kl" path="res://Scripts/node_3d.gd" id="1_noarx"]
 [ext_resource type="Material" uid="uid://1t0ubefix58x" path="res://materials/ground.tres" id="2_noarx"]
 [ext_resource type="Script" uid="uid://b3chpk877ttle" path="res://new new Scripts/RightHand.gd" id="2_r3fl7"]
 [ext_resource type="Script" uid="uid://bawu0ntmx2bng" path="res://new new Scripts/left_hand.gd" id="2_wc5p8"]
+[ext_resource type="Material" uid="uid://mvf11fmupe3m" path="res://materials/leftSaber.tres" id="3_4arys"]
 [ext_resource type="Script" uid="uid://brhbuwrju8blx" path="res://new new Scripts/LineRight.gd" id="3_jka67"]
 [ext_resource type="Script" uid="uid://b4nebtk3l2b8s" path="res://new new Scripts/line_left.gd" id="3_jsk3o"]
+[ext_resource type="AudioStream" uid="uid://ckathp0py06mu" path="res://sounds/Laser2.mp3" id="5_6iypd"]
+[ext_resource type="Material" uid="uid://nrmvuetfjj62" path="res://materials/rightSaber.tres" id="6_6iypd"]
 [ext_resource type="Script" uid="uid://dy63srs1ixp36" path="res://new new Scripts/cube_spawner.gd" id="6_wc5p8"]
 
 [sub_resource type="ImmediateMesh" id="ImmediateMesh_wc5p8"]
@@ -29,8 +32,17 @@ tracker = &"left_hand"
 script = ExtResource("2_wc5p8")
 
 [node name="LineLeft" type="MeshInstance3D" parent="XROrigin3D/LeftHand"]
+layers = 32
+material_override = ExtResource("3_4arys")
 mesh = SubResource("ImmediateMesh_wc5p8")
 script = ExtResource("3_jsk3o")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="XROrigin3D/LeftHand"]
+transform = Transform3D(0.05, 0, 0, 0, -1.31134e-08, -0.05, 0, 0.3, -2.18557e-09, 0, 0, 0)
+
+[node name="SmackSound" type="AudioStreamPlayer3D" parent="XROrigin3D/LeftHand"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, -1.3, -10)
+stream = ExtResource("5_6iypd")
 
 [node name="RightHand" type="XRController3D" parent="XROrigin3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 1.3, 0)
@@ -38,8 +50,17 @@ tracker = &"right_hand"
 script = ExtResource("2_r3fl7")
 
 [node name="LineRight" type="MeshInstance3D" parent="XROrigin3D/RightHand"]
+layers = 64
+material_override = ExtResource("6_6iypd")
 mesh = SubResource("ImmediateMesh_jka67")
 script = ExtResource("3_jka67")
+
+[node name="SmackSound" type="AudioStreamPlayer3D" parent="XROrigin3D/RightHand"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, -1.3, -10)
+stream = ExtResource("5_6iypd")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="XROrigin3D/RightHand"]
+transform = Transform3D(0.05, 0, 0, 0, -1.31134e-08, -0.05, 0, 0.3, -2.18557e-09, 0, 0, 0)
 
 [node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
@@ -64,8 +85,6 @@ light_energy = 2.0
 [node name="CubeSpawner" type="Node3D" parent="WorldEnvironment"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
 script = ExtResource("6_wc5p8")
-
-[node name="CSGBox3D" type="CSGBox3D" parent="WorldEnvironment/CubeSpawner"]
 
 [node name="StaticBody3D" type="StaticBody3D" parent="WorldEnvironment"]
 
